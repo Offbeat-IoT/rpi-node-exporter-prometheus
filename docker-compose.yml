@@ -1,8 +1,6 @@
 services:
   cadvisor:
-    container_name: monitoring-cadvisor
     image: gcr.io/cadvisor/cadvisor:v0.49.1
-    hostname: rpi-cadvisor
     restart: unless-stopped
     privileged: true
     networks:
@@ -22,16 +20,14 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
       - /etc/machine-id:/etc/machine-id:ro
+    deploy:
+      mode: global
 
   node-exporter:
-    container_name: monitoring-node-exporter
     image: prom/node-exporter:latest
-    hostname: rpi-exporter
     restart: unless-stopped
     networks:
       - internal
-    expose:
-      - 9100
     ports:
       - '9100:9100'
     command:
@@ -45,6 +41,9 @@ services:
       - /sys:/host/sys:ro
       - /:/rootfs:ro
       - /:/host:ro,rslave
+    deploy:
+      mode: global
+
 networks:
   internal:
-    driver: bridge
+    driver: overlay
