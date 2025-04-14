@@ -45,5 +45,6 @@ services:
       mode: global
 
 networks:
-  swarm_overlay:
+  internal:
     driver: overlay
+    attachable: true
