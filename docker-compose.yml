@@ -45,5 +45,5 @@ services:
       mode: global
 
 networks:
-  internal:
+  swarm_overlay:
     driver: overlay
