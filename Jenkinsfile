@@ -15,6 +15,7 @@ pipeline {
                     for (n in targetNodes) {
                         tasks[n] = {
                             node(n) {
+                                checkout scm
                                 sh 'docker compose up -d'
                             }
                         }
