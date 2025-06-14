@@ -4,15 +4,15 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def targetNodes
+                    def targetNodes = []
                     if (env.BRANCH_NAME == 'main') {
-                        // Collect every node configured in Jenkins
-                        targetNodes = jenkins.model.Jenkins.instance.nodes.collect { it.nodeName }
-                        // Include the controller in case it's not in the list
-                        targetNodes += 'master'
+                        // Gather nodes from common deployment labels
+                        targetNodes += nodesByLabel('build')
+                        targetNodes += nodesByLabel('production')
+                        targetNodes += nodesByLabel('observability')
                     } else {
                         // Only use build nodes for feature branches
-                        targetNodes = nodesByLabel('build')
+                        targetNodes += nodesByLabel('build')
                     }
                     targetNodes = targetNodes.unique()
 
