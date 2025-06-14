@@ -5,7 +5,8 @@ pipeline {
             steps {
                 script {
                     def nodes = []
-                    if (env.BRANCH_NAME == 'main') {
+//                    if (env.BRANCH_NAME == 'main') {
+                    if (true) {
                         // Gather nodes from common deployment labels
                         nodes += nodesByLabel('build')
                         nodes += nodesByLabel('production')
