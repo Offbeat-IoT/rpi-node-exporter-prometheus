@@ -6,10 +6,15 @@ pipeline {
                 script {
                     def targetNodes = []
                     if (env.BRANCH_NAME == 'main') {
-                        targetNodes = nodesByLabel('')
+                        // Gather nodes from common deployment labels
+                        targetNodes += nodesByLabel('build')
+                        targetNodes += nodesByLabel('production')
+                        targetNodes += nodesByLabel('observability')
                     } else {
-                        targetNodes = nodesByLabel('build')
+                        // Only use build nodes for feature branches
+                        targetNodes += nodesByLabel('build')
                     }
+                    targetNodes = targetNodes.unique()
 
                     def tasks = [:]
                     for (n in targetNodes) {
