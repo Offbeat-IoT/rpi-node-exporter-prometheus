@@ -4,26 +4,25 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def targetNodes = []
+                    def nodes = []
                     if (env.BRANCH_NAME == 'main') {
                         // Gather nodes from common deployment labels
-                        targetNodes += nodesByLabel('build')
-                        targetNodes += nodesByLabel('production')
-                        targetNodes += nodesByLabel('observability')
+                        nodes += nodesByLabel('build')
+                        nodes += nodesByLabel('production')
+                        nodes += nodesByLabel('observability')
                     } else {
                         // Only use build nodes for feature branches
-                        targetNodes += nodesByLabel('build')
+                        nodes += nodesByLabel('build')
                     }
-                    targetNodes = targetNodes.unique()
+                    nodes = nodes.unique()
 
-                    def tasks = [:]
-                    for (n in targetNodes) {
-                        tasks[n] = {
+                    def tasks = nodes.collectEntries { n ->
+                        [(n): {
                             node(n) {
                                 checkout scm
                                 sh 'docker compose up -d'
                             }
-                        }
+                        }]
                     }
                     parallel tasks
                 }
