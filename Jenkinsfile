@@ -8,9 +8,9 @@ pipeline {
                     if (env.BRANCH_NAME == 'main') {
                         // Gather nodes from common deployment labels
                         nodes += nodesByLabel('built-in')
-                        nodes += nodesByLabel('build')
                         nodes += nodesByLabel('production')
                         nodes += nodesByLabel('observability')
+                        nodes += nodesByLabel('build')
                     } else {
                         // Only use build nodes for feature branches
                         nodes += nodesByLabel('build')
