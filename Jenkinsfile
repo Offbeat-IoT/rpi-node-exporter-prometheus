@@ -20,7 +20,7 @@ pipeline {
                     def tasks = nodes.collectEntries { n ->
                     echo "###############"
                     echo "$n"
-                    def nodeName = n.id
+                    def nodeName = n
                         [(nodeName): {
                             node(nodeName) {
                                 checkout scm
