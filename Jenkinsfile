@@ -7,11 +7,10 @@ pipeline {
                     def nodes = []
                     if (env.BRANCH_NAME == 'main') {
                         // Gather nodes from common deployment labels
+                        nodes += nodesByLabel('built-in')
                         nodes += nodesByLabel('production')
                         nodes += nodesByLabel('observability')
                         nodes += nodesByLabel('build')
-                        sh 'docker compose up -d'
-
                     } else {
                         // Only use build nodes for feature branches
                         nodes += nodesByLabel('build')
