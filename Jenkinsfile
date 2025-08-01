@@ -18,8 +18,9 @@ pipeline {
                     nodes = nodes.unique()
 
                     def tasks = nodes.collectEntries { n ->
-                    echo n
-                    def nodeName = n.name
+                    echo "###############"
+                    echo "$n"
+                    def nodeName = n.id
                         [(nodeName): {
                             node(nodeName) {
                                 checkout scm
