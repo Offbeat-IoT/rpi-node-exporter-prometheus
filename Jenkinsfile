@@ -18,6 +18,7 @@ pipeline {
                     nodes = nodes.unique()
 
                     def tasks = nodes.collectEntries { n ->
+                    echo n
                     def nodeName = n.name
                         [(nodeName): {
                             node(nodeName) {
