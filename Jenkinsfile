@@ -7,7 +7,7 @@ pipeline {
                     def nodes = []
                     if (env.BRANCH_NAME == 'main') {
                         // Gather nodes from common deployment labels
-                        nodes += nodesByLabel('build-in')
+                        nodes += nodesByLabel('built-in')
                         nodes += nodesByLabel('build')
                         nodes += nodesByLabel('production')
                         nodes += nodesByLabel('observability')
