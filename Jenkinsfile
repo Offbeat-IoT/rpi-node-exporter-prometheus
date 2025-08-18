@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     def nodes = []
-                    if (env.BRANCH_NAME == 'main') {
+                    if (env.BRANCH_NAME == 'main' ||env.BRANCH_NAME == 'fixing'  ) {
                         // Gather nodes from common deployment labels
                         nodes += nodesByLabel('built-in')
                         nodes += nodesByLabel('production')
@@ -18,8 +18,11 @@ pipeline {
                     nodes = nodes.unique()
 
                     def tasks = nodes.collectEntries { n ->
-                        [(n): {
-                            node(n) {
+                    echo "###############"
+                    echo "$n"
+                    def nodeName = n
+                        [(nodeName): {
+                            node(nodeName) {
                                 checkout scm
                                 sh 'docker compose up -d'
                             }
