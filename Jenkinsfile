@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     def nodes = []
-                    if (env.BRANCH_NAME == 'main' ||env.BRANCH_NAME == 'fixing'  ) {
+                    if (env.BRANCH_NAME == 'main' ||env.BRANCH_NAME == 'experiment'  ) {
                         // Gather nodes from common deployment labels
                         nodes += nodesByLabel('built-in')
                         nodes += nodesByLabel('production')
@@ -25,6 +25,7 @@ pipeline {
                             node(nodeName) {
                                 checkout scm
                                 sh 'docker compose up -d'
+                                sh 'echo ${HOSTNAME}'
                             }
                         }]
                     }
